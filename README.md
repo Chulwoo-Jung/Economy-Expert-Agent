@@ -1,4 +1,4 @@
-# Economy Analysis Agent
+# Economy Analysis Agent 📰
 
 A comprehensive LangGraph-based agent system for analyzing economic data from multiple sources including Germany, EU, and US economic overviews, news, and web search.
 
