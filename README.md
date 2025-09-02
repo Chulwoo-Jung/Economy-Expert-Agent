@@ -85,6 +85,12 @@ The Gradio interface allows you to:
 - "What are the latest economic news?"
 - "Compare the economic growth of US and EU"
 
+## 🔑 Output Examples
+<img width="1234" height="680" alt="Screenshot 2025-09-02 at 7 50 29 pm" src="https://github.com/user-attachments/assets/25505ca9-1ed0-493b-b067-c44bcb3455af" />
+<img width="1242" height="672" alt="Screenshot 2025-09-02 at 7 51 37 pm" src="https://github.com/user-attachments/assets/fe2407b4-17e7-4967-967c-f41b68d16e14" />
+
+
+
 ## 🔧 Configuration
 
 ### Model Settings
