@@ -1,0 +1,6 @@
+chroma_db/*
+data/*
+langgraph_venv/*
+__pycache__/*
+practice_code/*
+.env
