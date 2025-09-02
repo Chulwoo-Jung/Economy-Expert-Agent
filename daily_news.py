@@ -11,7 +11,7 @@ class NewsAgent:
         self.newsapi = NewsApiClient(api_key=self.api_key)
 
     def get_daily_news(self, symbol:str="economy") -> list[Document]:
-        news =  self.newsapi.get_top_headlines(q=symbol, language="en")
+        news =  self.newsapi.get_top_headlines(q=symbol, language="en", sources='bbc-news')
         return [ Document(
             page_content=f"{article['title']}\n\n{article.get('description', '')}", 
             metadata={"source": article["url"], "name": article['title'], "date": article['publishedAt']}) 

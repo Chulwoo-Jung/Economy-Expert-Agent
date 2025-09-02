@@ -3,40 +3,39 @@ from daily_news import NewsAgent
 from glob import glob
 import os
 from langchain_core.documents import Document
-from langchain_core.retrievers import ContextualCompressionRetriever
+from langchain.retrievers.contextual_compression import ContextualCompressionRetriever
 from langchain.retrievers.document_compressors import CrossEncoderReranker
 from langchain_community.cross_encoders import HuggingFaceCrossEncoder
 from langchain_community.retrievers import TavilySearchAPIRetriever
 from langchain_core.tools import tool
-from langchain_openai import ChatOpenAI
 
 overview = Overview()
 news_agent = NewsAgent()
-llm = ChatOpenAI(model="gpt-5-nano")
 
 # saving documents to chroma_db
-
 paths = glob(os.path.join("economy", "*overview.pdf"))
 names = [path.split("/")[-1].split(".")[0].split("_")[0] for path in paths]
+# ChromaDB requires collection names to be at least 3 characters
+names = [f"{name}_economy" for name in names]
 print(f"save {names} to chroma_db")
 
 for path, name in zip(paths, names):
     overview.save_docs_to_chroma_db(path, name)
 
 # building retrievers
-re_ranker = CrossEncoderReranker(cross_encoder=HuggingFaceCrossEncoder(model_name="cross-encoder/ms-marco-MiniLM-L-6-v2"), top_n=2)
+re_ranker = CrossEncoderReranker(model=HuggingFaceCrossEncoder(model_name="cross-encoder/ms-marco-MiniLM-L-6-v2"), top_n=2)
 
 de_retriever = ContextualCompressionRetriever(
     base_compressor=re_ranker,
-    base_retriever=overview.get_chroma_db("de").as_retriever(search_kwargs={"k": 5}),
+    base_retriever=overview.get_chroma_db("de_economy").as_retriever(search_kwargs={"k": 5}),
 )
 eu_retriever = ContextualCompressionRetriever(
     base_compressor=re_ranker,
-    base_retriever=overview.get_chroma_db("eu").as_retriever(search_kwargs={"k": 5}),
+    base_retriever=overview.get_chroma_db("eu_economy").as_retriever(search_kwargs={"k": 5}),
 )
 us_retriever = ContextualCompressionRetriever(
     base_compressor=re_ranker,
-    base_retriever=overview.get_chroma_db("us").as_retriever(search_kwargs={"k": 5}),
+    base_retriever=overview.get_chroma_db("us_economy").as_retriever(search_kwargs={"k": 5}),
 )
 
 # defining tools
