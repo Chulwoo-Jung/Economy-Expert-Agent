@@ -44,26 +44,42 @@ us_retriever = ContextualCompressionRetriever(
 @tool
 def search_de_overview(query: str) -> list[Document]:
     """search information from germany economy overview that is published in August"""
-    retriever = de_retriever
-    return retriever.invoke(query)
+    de_docs = de_retriever.invoke(query)
+
+    if(len(de_docs) > 0):
+        return de_docs
+    
+    return [Document(page_content="Can't find relevant information.")]
 
 @tool
 def search_eu_overview(query: str) -> list[Document]:
     """search information from europe economy overview that is published in March"""
-    retriever = eu_retriever
-    return retriever.invoke(query)
+    eu_docs = eu_retriever.invoke(query)
+
+    if(len(eu_docs) > 0):
+        return eu_docs
+    
+    return [Document(page_content="Can't find relevant information.")]
 
 @tool
 def search_us_overview(query: str) -> list[Document]:
     """search information from united states economy overview that is published in July"""
-    retriever = us_retriever
-    return retriever.invoke(query)
+    us_docs = us_retriever.invoke(query)
+
+    if(len(us_docs) > 0):
+        return us_docs
+    
+    return [Document(page_content="Can't find relevant information.")]
 
 @tool
 def search_news(query: str) -> list[Document]:
     """search information from news that is published in the last 24 hours"""
-    retriever = news_agent.get_daily_news("economy")
-    return retriever.invoke(query)
+    news_docs = news_agent.get_daily_news("economy")
+
+    if(len(news_docs) > 0):
+        return news_docs
+    
+    return [Document(page_content="Can't find relevant information.")]
 
 @tool
 def search_web(query: str) -> list[Document]:
